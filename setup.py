@@ -10,9 +10,15 @@ setup(
     license='GPLv3',
     packages=['exceldiff'],
     install_requires=[
-        # 'mpi4py>=2.0',
-        # 'numpy',
-                      ],
+        'argparse',
+        'pathlib',
+        'pandas',
+        'numpy'
+        # 'argparse>=1.4',
+        # 'pathlib>=1.0',
+        # 'pandas>=1.4',
+        # 'numpy>=1.23'
+    ],
     classifiers=[
         'Development Status :: 1 - Planning',
         'Programming Language :: Python :: 3',
