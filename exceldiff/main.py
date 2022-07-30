@@ -7,16 +7,30 @@ from pathlib import Path
 import pandas as pd
 import numpy as np
 
+
 # pip install odfpy
 # pd.read_excel("the_document.ods", engine="odf")
 
+logger = logging.getLogger()
+logger.setLevel(logging.INFO)
+formatter = logging.Formatter('%(asctime)s | %(levelname)s | %(message)s',
+                              '%d-%m-%Y %H:%M:%S')
 
+stdout_handler = logging.StreamHandler(sys.stdout)
+stdout_handler.setLevel(logging.DEBUG)
+stdout_handler.setFormatter(formatter)
 
+file_handler = logging.FileHandler('logs.log')
+file_handler.setLevel(logging.DEBUG)
+file_handler.setFormatter(formatter)
 
+logger.addHandler(file_handler)
+logger.addHandler(stdout_handler)
 
 def get_sheets(excel_file_1, excel_file_2):
-    excel_1_sheets = pd.ExcelFile(excel_file_1).sheet_names.sort()
-    excel_2_sheets = pd.ExcelFile(excel_file_2).sheet_names.sort()
+    excel_1_sheets = pd.ExcelFile(excel_file_1, engine="odf").sheet_names.sort()
+    excel_2_sheets = pd.ExcelFile(excel_file_2, engine="odf").sheet_names.sort()
+    logging.debug('test3')
     return excel_1_sheets == excel_2_sheets, excel_1_sheets
 
 
@@ -32,7 +46,7 @@ def compare_excel_files(excel_1, excel_2, out_dir):
             exl_1.equals(exl_2)
             match_map = exl_1.values == exl_2.values
             print(match_map)
-            diff_rows, dif_cols = np.where(match_map == False)
+            diff_rows, dif_cols = np.where(not match_map)
             for item in zip(diff_rows, dif_cols):
                 col_position = exl_1.columns.values.tolist()[dif_cols]
                 if not (pd.isnull(exl_1.iloc[item[0], item[1]]) and
@@ -55,9 +69,7 @@ def compare_excel_files(excel_1, excel_2, out_dir):
             with open(out_path + annot_file, 'w') as f:
                 f.write(diff_annot)
 
-
-def main(argv):
-    print("hello world2!")
+def main():
     parser = argparse.ArgumentParser(description="A tool to compare two excel files "
                                                  "with annotation of the differences.")
     parser.add_argument("-i", "--input-files",
@@ -70,13 +82,14 @@ def main(argv):
                         nargs=1,
                         default='',
                         help="Path to the output directory.", required=True)
-    parser.add_argument("-v", "--verbose", type=str, nargs="+",
+
+    parser.add_argument("-v", "--verbose", action='store_true',
                         help="Increase output verbosity", required=False)
     parser.parse_args()
     argument_list = sys.argv[1:]
     input_files, out_dir = None, None
 
-    if "-h" in argv[1:] or "--help" in argv[1:]:
+    if "-h" in sys.argv[1:] or "--help" in sys.argv[1:]:
         parser.print_help()
         exit(0)
     else:
@@ -87,7 +100,7 @@ def main(argv):
         long_options = [
             "input-files=",
             "out-dir=",
-            "dry-verbose"
+            "verbose"
         ]
 
         try:
@@ -96,7 +109,7 @@ def main(argv):
 
             # checking each argument
             for currentArgument, currentValue in arguments:
-                if currentArgument in ("-i", "--input-files",):
+                if currentArgument in ("-i", "--input-files"):
                     if len(currentValue) == 2:
                         path_1 = Path(currentValue[0])
                         path_2 = Path(currentValue[1])
@@ -108,20 +121,23 @@ def main(argv):
                         out_dir = currentValue
 
                 elif currentArgument in ("-v", "--verbose"):
+                    # logging.basicConfig(level=logging.DEBUG)
                     logging.getLogger().setLevel(logging.DEBUG)
 
         except getopt.error as err:
             # output error, and return with an error code
             logging.exception(err)
 
+        logging.debug("hello world3!")
+        logger.debug('test')
+
         if input_files and out_dir:
             compare_excel_files(input_files[0], input_files[1], out_dir)
 
 
 if __name__ == "__main__":
-    print("hello world")
     logging.getLogger().setLevel(logging.WARNING)
     try:
-        main(sys.argv)
+        main()
     except Exception as e:
         logging.exception(e)

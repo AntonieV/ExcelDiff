@@ -1,24 +1,30 @@
+import os
 from setuptools import setup
+# requirements from requirements.txt
+REQUIREMENTS = [i.strip() for i in open("requirements.txt").readlines()]
+
+
+# Utility function to read the README file.
+# see https://pythonhosted.org/an_example_pypi_project/setuptools.html
+# Used for the long_description.  It's nice, because now 1) we have a top level
+# README file and 2) it's easier to type in the README file than to put a raw
+# string in below ...
+def read(fname):
+    return open(os.path.join(os.path.dirname(__file__), fname)).read()
+
 
 setup(
     name='ExcelDiff',
     version='0.1.0',
-    description='A tool to compare two excel files with annotation of the differences.',
-    url='https://github.com/AntonieV/ExcelDiff',
     author='Antonie Vietor',
     author_email='a.vietor@gmx.net',
+    description='A tool to compare two excel files with annotation of the differences.',
+    url='https://github.com/AntonieV/ExcelDiff',
     license='GPLv3',
     packages=['exceldiff'],
-    install_requires=[
-        'argparse',
-        'pathlib',
-        'pandas',
-        'numpy'
-        # 'argparse>=1.4',
-        # 'pathlib>=1.0',
-        # 'pandas>=1.4',
-        # 'numpy>=1.23'
-    ],
+    python_requires='>3.6',
+    install_requires=REQUIREMENTS,
+    long_description=read('README.md'),
     classifiers=[
         'Development Status :: 1 - Planning',
         'Programming Language :: Python :: 3',
@@ -26,6 +32,6 @@ setup(
         'License :: OSI Approved :: MIT License'
     ],
     entry_points={
-        'console_scripts': ['exceldiff=exceldiff.__main__:main'],
+        'console_scripts': ['exceldiff=exceldiff.main:main'],
     },
 )
