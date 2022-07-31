@@ -16,7 +16,7 @@ stdout_handler = logging.StreamHandler(sys.stdout)
 stdout_handler.setLevel(logging.DEBUG)
 stdout_handler.setFormatter(formatter)
 
-file_handler = RotatingFileHandler('logs.log', maxBytes=1024, backupCount=1)
+file_handler = RotatingFileHandler('logs.log', maxBytes=500*1024, backupCount=1)
 file_handler.setLevel(logging.DEBUG)
 file_handler.setFormatter(formatter)
 
@@ -25,6 +25,7 @@ logger.addHandler(stdout_handler)
 
 
 def compare_excel_files(excel_1, excel_2, out_dir):
+    logger.info('Starting ExcelDiff analysis...')
     diff_annot = f'COMPARISON OF\n\t{excel_1}\n\tWITH\n\t{excel_2}' \
                  f'\n\nDifferences:\n'
     exl_1 = pd.read_excel(excel_1, sheet_name=None)
@@ -61,12 +62,20 @@ def compare_excel_files(excel_1, excel_2, out_dir):
             else:
                 diff_annot += f"\t\tSheet '{sheets[i]}' " \
                               f"does not show any differences.\n"
-
-            annot_file = 'ExcelDiff_annotations.txt'
-            with open(out_path + annot_file, 'w') as f:
-                f.write(diff_annot)
+        logger.info('ExcelDiff analysis finished!')
     else:
-        pass
+        solution_msg = 'Please adjust the sheets of both ' \
+                      'files before.'
+        logger.error(f'For a differentiated comparison of the excel files, '
+                     f'the sheets of both files must match in name and '
+                     f'number. {solution_msg}')
+        diff_annot += f'The two files to be compared have a different ' \
+                      f'number of sheets or have different sheet names. ' \
+                      f'An analysis for differences in their sheets is ' \
+                      f'therefore not possible. {solution_msg}'
+    annot_file = 'ExcelDiff_annotations.txt'
+    with open(out_path + annot_file, 'w') as f:
+        f.write(diff_annot)
 
 
 def main():
