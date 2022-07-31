@@ -9,4 +9,10 @@ pip3 install --upgrade pip
 
 pip3 uninstall exceldiff
 pip3 install .
+
+# package execution
 exceldiff -v -i ../test_table_1 ../test_table_2 -o ../diff
+
+# local execution 
+python3 exceldiff/main.py -i ../test_table_1.ods ../test_table_2.ods -o ../diff
+
