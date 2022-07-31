@@ -30,11 +30,9 @@ def compare_sheets(exl_1, exl_2, sheet, diff_writer, diff_annot):
                            f"{exl_2_val}"
                 logger.info(diff_msg)
                 diff_annot += f"\t\t{diff_msg}\n"
-                exl_1[sheet].iloc[cell[0], cell[1]] = f'{exl_1_val} ' \ 
-                                                            f'>>> {exl_2_val}'
+                exl_1[sheet].iloc[cell[0], cell[1]] = f'{exl_1_val} >>> {exl_2_val}'
     else:
-        diff_annot += f"\t\tSheet '{sheet}' " \
-                      f"does not show any differences.\n"
+        diff_annot += f"\t\tSheet '{sheet}' does not show any differences.\n"
 
     exl_1[sheet].to_excel(diff_writer, index=False,
                                 header=True, encoding='utf-8',
