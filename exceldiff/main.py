@@ -9,6 +9,7 @@ logger = log_handler.init_logger()
 
 
 def compare_sheets(exl_1, exl_2, sheet, diff_writer, diff_annot):
+    """Compares corresponding sheets of input files"""
     logger.info(f"Analysing sheet '{sheet}'")
     diff_annot += f"\tSheet '{sheet}':\n"
     if not exl_1[sheet].equals(exl_2[sheet]):
@@ -42,6 +43,7 @@ def compare_sheets(exl_1, exl_2, sheet, diff_writer, diff_annot):
 
 
 def compare_excel_files(excel_1, excel_2, out_dir):
+    """Compares two input files in .xlsx or .ods format"""
     logger.info('Starting ExcelDiff analysis...')
     diff_annot = f'COMPARISON OF\n\t{excel_1}\n\tWITH\n\t{excel_2}' \
                  f'\n\nDifferences:\n'
