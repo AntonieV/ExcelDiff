@@ -2,8 +2,8 @@ import logging
 import os
 import pandas as pd
 import numpy as np
-import command_line_options
-import log_handler
+from exceldiff import command_line_options
+from exceldiff import log_handler
 
 logger = log_handler.init_logger()
 
@@ -35,8 +35,8 @@ def compare_sheets(exl_1, exl_2, sheet, diff_writer, diff_annot):
         diff_annot += f"\t\tSheet '{sheet}' does not show any differences.\n"
 
     exl_1[sheet].to_excel(diff_writer, index=False,
-                                header=True, encoding='utf-8',
-                                sheet_name=sheet)
+                          header=True, encoding='utf-8',
+                          sheet_name=sheet)
     return diff_annot
 
 

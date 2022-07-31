@@ -28,21 +28,21 @@ jobs:
       run: |
         python -m pip install --upgrade pip
         python -m pip install pylint flake8 pytest
-        pwd
         pip3 install .
-#        if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
-#    - name: Analysing the code with pylint
-#      run: |
-#        pylint $(git ls-files '*.py')
     - name: test-run
       run: |
         exceldiff -v -i ExcelDiff/assets/data/test_table_1.ods ExcelDiff/assets/data/test_table_3.xlsx -o diff
-#    - name: Lint with flake8
-#      run: |
+    - name: Lint with flake8
+      run: |
+        flake8 . --count --exit-zero --select=E9,F63,F7,F82 --max-line-length=88 --show-source --statistics
 #        # stop the build if there are Python syntax errors or undefined names
 #        flake8 . --count --select=E9,F63,F7,F82 --show-source --statistics
 #        # exit-zero treats all errors as warnings. The GitHub editor is 127 chars wide
-#        flake8 . --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics
-#    - name: Test with pytest
+#        flake8 . --count --exit-zero --max-complexity=10 --max-line-length=88 --show-source --statistics
+#    - name: Analysing the code with pylint
 #      run: |
-#        pytest
+#        pylint -v *.py
+#        pylint $(git ls-files '*.py')
+    - name: Test with pytest
+      run: |
+        pytest

@@ -1,3 +1,4 @@
+"""A tool to compare two excel files with annotation of the differences."""
 import os
 from setuptools import setup
 # requirements from requirements.txt
@@ -10,6 +11,7 @@ REQUIREMENTS = [i.strip() for i in open("requirements.txt").readlines()]
 # README file and 2) it's easier to type in the README file than to put a raw
 # string in below ...
 def read(fname):
+    """Linking README to package setup"""
     return open(os.path.join(os.path.dirname(__file__), fname)).read()
 
 
