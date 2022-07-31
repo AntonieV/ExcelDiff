@@ -1,0 +1,1 @@
+31-07-2022 ExcelDiff version 0.1.0 released
