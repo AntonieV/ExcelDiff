@@ -1,6 +1,7 @@
 # SpreadSheetDiff
 
-A tool to compare two excel files with annotation of the differences. The files 
+A tool to compare two Excel or OpenOffice files (.xlsx or .ods format)
+with annotation of the differences. The files 
 to be compared must have the same basic structure. That means the labels and the 
 number of their sheets must be the same in both files. 
 
@@ -85,13 +86,34 @@ In addition, they are stored with the corresponding cell localization
 ````
 spreadsheetdiff -h
 ````
-![image info](./assets/Screenshot_help.png)
+Help output:
+````
+usage: spreadsheetdiff [-h] -i INPUT_FILES INPUT_FILES -o OUT_DIR [-v]
+
+A tool to compare two excel files with annotation of the differences.
+
+optional arguments:
+  -h, --help            show this help message and exit
+  -i INPUT_FILES INPUT_FILES, --input-files INPUT_FILES INPUT_FILES
+                        Two paths to the Excel files (.xlsx or .ods format) to be compared with each other.
+  -o OUT_DIR, --out-dir OUT_DIR
+                        Path to the output directory.
+  -v, --verbose         Increase output verbosity
+````
 
 ### Example package execution:
 ````
 spreadsheetdiff -v -i ../file_1.ods ../file_2.ods -o ../diff
 ````
-![image info](./assets/Screenshot_SpreadSheetDiff_stdout.png)
+Example output:
+````
+31-07-2022 22:32:25 | INFO | Starting SpreadSheetDiff analysis...
+31-07-2022 22:32:25 | INFO | Analysing sheet 'Tabelle1'
+31-07-2022 22:32:25 | INFO | In sheet 'Tabelle1' [row: 7, col: Test2]: dfghd >>> asdf
+31-07-2022 22:32:25 | INFO | In sheet 'Tabelle1' [row: 13, col: Test1]: 12 >>> 112
+31-07-2022 22:32:25 | INFO | Analysing sheet 'Tabelle2'
+31-07-2022 22:32:25 | INFO | SpreadSheetDiff analysis finished!
+````
 
 ### Example for local execution of the main method:
 
