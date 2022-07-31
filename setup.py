@@ -16,14 +16,14 @@ def read(fname):
 
 
 setup(
-    name='ExcelDiff',
+    name='SpreadSheetDiff',
     version='0.1.0',
     author='Antonie Vietor',
     author_email='a.vietor@gmx.net',
     description='A tool to compare two excel files with annotation of the differences.',
-    url='https://github.com/AntonieV/ExcelDiff',
+    url='https://github.com/AntonieV/SpreadSheetDiff',
     license='GPLv3',
-    packages=['exceldiff'],
+    packages=['spreadsheetdiff'],
     python_requires='>3.6',
     install_requires=REQUIREMENTS,
     long_description=read('README.md'),
@@ -34,6 +34,6 @@ setup(
         'License :: OSI Approved :: MIT License'
     ],
     entry_points={
-        'console_scripts': ['exceldiff=exceldiff.main:main'],
+        'console_scripts': ['spreadsheetdiff=spreadsheetdiff.main:main'],
     },
 )

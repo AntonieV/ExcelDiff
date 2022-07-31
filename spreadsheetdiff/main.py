@@ -2,8 +2,8 @@ import logging
 import os
 import pandas as pd
 import numpy as np
-from exceldiff import command_line_options
-from exceldiff import log_handler
+from spreadsheetdiff import command_line_options
+from spreadsheetdiff import log_handler
 
 logger = log_handler.init_logger()
 
@@ -42,7 +42,7 @@ def compare_sheets(exl_1, exl_2, sheet, diff_writer, diff_annot):
 
 def compare_excel_files(excel_1, excel_2, out_dir):
     """Compares two input files in .xlsx or .ods format"""
-    logger.info('Starting ExcelDiff analysis...')
+    logger.info('Starting SpreadSheetDiff analysis...')
     diff_annot = f'COMPARISON OF\n\t{excel_1}\n\tWITH\n\t{excel_2}' \
                  f'\n\nDifferences:\n'
     exl_1 = pd.read_excel(excel_1, sheet_name=None)
@@ -50,7 +50,7 @@ def compare_excel_files(excel_1, excel_2, out_dir):
     out_path = f'{out_dir}/'
     if exl_1.keys() == exl_2.keys():
         sheets = list(exl_1.keys())
-        res_exl_file = f'{out_path}ExcelDiff_{os.path.basename(excel_1)}_vs' \
+        res_exl_file = f'{out_path}SpreadSheetDiff{os.path.basename(excel_1)}_vs' \
                        f'_{os.path.basename(excel_2)}.xlsx'
         with pd.ExcelWriter(res_exl_file) as diff_writer:
             for idx in range(len(sheets)):
@@ -66,11 +66,11 @@ def compare_excel_files(excel_1, excel_2, out_dir):
                       f'number of sheets or have different sheet names. ' \
                       f'An analysis for differences in their sheets is ' \
                       f'therefore not possible. {solution_msg}'
-    annot_file = 'ExcelDiff_annotations.txt'
+    annot_file = 'SpreadSheetDiff_annotations.txt'
     with open(out_path + annot_file, 'w') as f:
         f.write(diff_annot)
 
-    logger.info('ExcelDiff analysis finished!')
+    logger.info('SpreadSheetDiff analysis finished!')
 
 
 def main():

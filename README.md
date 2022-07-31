@@ -1,4 +1,4 @@
-# ExcelDiff
+# SpreadSheetDiff
 
 A tool to compare two excel files with annotation of the differences. The files 
 to be compared must have the same basic structure. That means the labels and the 
@@ -30,7 +30,7 @@ sudo apt install wget
 
 For .tar.gz format execute the following command in terminal:
 ````
-wget https://github.com/AntonieV/ExcelDiff/archive/refs/tags/latest.tar.gz -O - | tar -xz
+wget https://github.com/AntonieV/SpreadSheetDiff/archive/refs/tags/latest.tar.gz -O - | tar -xz
 ````
 
 ### Alternatively: download and extract repository in .zip format: 
@@ -48,14 +48,14 @@ sudo apt install wget
 
 For .zip format execute the following command in terminal:
 ````
-wget https://github.com/AntonieV/ExcelDiff/archive/refs/tags/latest.zip
+wget https://github.com/AntonieV/SpreadSheetDiff/archive/refs/tags/latest.zip
 unzip latest.zip
 rm latest.zip
 ````
 
 ### Installation:
 ````
-cd ExcelDiff
+cd SpreadSheetDiff
 pip3 install .
 ````
 
@@ -71,37 +71,37 @@ The differences are stored in the cells of an .xlsx results file. A difference
 is marked in corresponding cell with `>>>` annotation between the different 
 values: `[value of first input file] >>> [value of second input file]`
 
-![image info](./assets/Screenshot_ExcelDiff.png)
+![image info](./assets/Screenshot_SpreadSheetDiff.png)
 
 
 In addition, they are stored with the corresponding cell localization 
-(sheet name, row and column) in a ExcelDiff_annotations file in 
+(sheet name, row and column) in a SpreadSheetDiff_annotations file in 
 .txt format:
 
-![image info](./assets/Screenshot_ExcelDiff_annot.png)
+![image info](./assets/Screenshot_SpreadSheetDiff_annot.png)
 
 ### Help:
 
 ````
-exceldiff -h
+spreadsheetdiff -h
 ````
 ![image info](./assets/Screenshot_help.png)
 
 ### Example package execution:
 ````
-exceldiff -v -i ../file_1.ods ../file_2.ods -o ../diff
+spreadsheetdiff -v -i ../file_1.ods ../file_2.ods -o ../diff
 ````
-![image info](./assets/Screenshot_ExcelDiff_stdout.png)
+![image info](./assets/Screenshot_SpreadSheetDiff_stdout.png)
 
 ### Example for local execution of the main method:
 
 ````
-python3 exceldiff/main.py -v -i ../file_1.xlsx ../file_2.ods -o ../diff
+python3 spreadsheetdiff/main.py -v -i ../file_1.xlsx ../file_2.ods -o ../diff
 ````
 
 ## Uninstall package:
 ````
-pip3 uninstall exceldiff
+pip3 uninstall spreadsheetdiff
 ````
 
 
