@@ -1,5 +1,7 @@
 import logging
 import os
+from pathlib import Path
+
 import pandas as pd
 import numpy as np
 from spreadsheetdiff import command_line_options
@@ -10,7 +12,7 @@ logger = log_handler.init_logger()
 
 def compare_sheets(exl_1, exl_2, sheet, diff_writer, diff_annot):
     """Compares corresponding sheets of input files"""
-    logger.info(f"Analysing sheet '{sheet}'")
+    logger.debug(f"Analysing sheet '{sheet}'")
     diff_annot += f"\tSheet '{sheet}':\n"
     if not exl_1[sheet].equals(exl_2[sheet]):
         match_map = exl_1[sheet] == exl_2[sheet]
@@ -28,7 +30,7 @@ def compare_sheets(exl_1, exl_2, sheet, diff_writer, diff_annot):
                            f"{col_position}]: " \
                            f"{exl_1_val} >>> " \
                            f"{exl_2_val}"
-                logger.info(diff_msg)
+                logger.debug(diff_msg)
                 diff_annot += f"\t\t{diff_msg}\n"
                 exl_1[sheet].iloc[cell[0], cell[1]] = f'{exl_1_val} >>> {exl_2_val}'
     else:
@@ -50,12 +52,18 @@ def compare_excel_files(excel_1, excel_2, out_dir):
     out_path = f'{out_dir}/'
     if exl_1.keys() == exl_2.keys():
         sheets = list(exl_1.keys())
-        res_exl_file = f'{out_path}SpreadSheetDiff{os.path.basename(excel_1)}_vs' \
-                       f'_{os.path.basename(excel_2)}.xlsx'
+        res_exl_file = f'{out_path}SpreadSheetDiff' \
+                       f'{Path(os.path.basename(excel_1)).stem}_vs' \
+                       f'_{Path(os.path.basename(excel_2)).stem}.xlsx'
         with pd.ExcelWriter(res_exl_file) as diff_writer:
             for idx in range(len(sheets)):
                 diff_annot = compare_sheets(exl_1, exl_2, sheets[idx],
                                             diff_writer, diff_annot)
+        annot_file = 'SpreadSheetDiff_annotations.txt'
+        with open(out_path + annot_file, 'w') as f:
+            f.write(diff_annot)
+
+        logger.info('SpreadSheetDiff analysis finished!')
     else:
         solution_msg = 'Please adjust the sheets of both ' \
                        'files before.'
@@ -66,11 +74,6 @@ def compare_excel_files(excel_1, excel_2, out_dir):
                       f'number of sheets or have different sheet names. ' \
                       f'An analysis for differences in their sheets is ' \
                       f'therefore not possible. {solution_msg}'
-    annot_file = 'SpreadSheetDiff_annotations.txt'
-    with open(out_path + annot_file, 'w') as f:
-        f.write(diff_annot)
-
-    logger.info('SpreadSheetDiff analysis finished!')
 
 
 def main():

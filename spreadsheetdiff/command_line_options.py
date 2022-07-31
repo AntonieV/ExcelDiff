@@ -19,11 +19,14 @@ def parse_command_line_opts():
                         required=True)
 
     parser.add_argument("-v", "--verbose", action='store_true',
-                        help="Increase output verbosity", required=False)
+                        help="Increase output verbosity to debug level.", required=False)
+    parser.add_argument("-q", "--quiet", action='store_true',
+                        help="Decrease output verbosity to warning level. Ignores -v flag.", required=False)
     args = parser.parse_args()
     input_files = args.input_files
     out_dir = ''.join(args.out_dir)
     verbose = args.verbose
+    quiet = args.quiet
 
     if "-h" in sys.argv[1:] or "--help" in sys.argv[1:]:
         parser.print_help()
@@ -36,7 +39,9 @@ def parse_command_line_opts():
                 input_files = None
         if out_dir and not os.path.exists(out_dir):
             os.makedirs(out_dir)
-        if verbose:
-            logging.getLogger().setLevel(logging.DEBUG)
+        if not verbose:
+            logging.getLogger().setLevel(logging.INFO)
+        if quiet:
+            logging.getLogger().setLevel(logging.WARNING)
 
     return input_files, out_dir

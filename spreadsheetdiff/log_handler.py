@@ -5,7 +5,7 @@ from logging.handlers import RotatingFileHandler
 
 def init_logger():
     logger = logging.getLogger()
-    logger.setLevel(logging.WARNING)
+    logger.setLevel(logging.DEBUG)
     formatter = logging.Formatter('%(asctime)s | %(levelname)s | %(message)s',
                                   '%d-%m-%Y %H:%M:%S')
 
