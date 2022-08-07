@@ -1,6 +1,4 @@
-# pip>=22.2
 argparse>=1.4.0
-setuptools>=63.2.0
 pandas>=1.4.3
 numpy>=1.19.2
-# odfpy>=1.4.1
+XlsxWriter>=3.0.3

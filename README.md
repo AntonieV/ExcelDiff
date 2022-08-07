@@ -88,7 +88,7 @@ spreadsheetdiff -h
 ````
 Help output:
 ````
-usage: spreadsheetdiff [-h] -i INPUT_FILES INPUT_FILES -o OUT_DIR [-v]
+usage: spreadsheetdiff [-h] -i INPUT_FILES INPUT_FILES -o OUT_DIR [-b] [-c BG_COLOR] [-v] [-q]
 
 A tool to compare two excel files with annotation of the differences.
 
@@ -98,12 +98,20 @@ optional arguments:
                         Two paths to the Excel files (.xlsx or .ods format) to be compared with each other.
   -o OUT_DIR, --out-dir OUT_DIR
                         Path to the output directory.
-  -v, --verbose         Increase output verbosity
+  -b, --bold            Displays differences in resulting spreadsheet in bold text style.
+  -c BG_COLOR, --bg-color BG_COLOR
+                        Displays differences in resulting spreadsheet in a specific color. The color has to be given in quoted hex color code (e.g.
+                        '#ff0000') or color name (e.g. red).
+  -v, --verbose         Increase output verbosity to debug level.
+  -q, --quiet           Decrease output verbosity to warning level. Ignores -v flag.
+
 ````
 
-### Example package execution:
+### Examples package execution:
 ````
-spreadsheetdiff -v -i ../file_1.ods ../file_2.ods -o ../diff
+spreadsheetdiff -v -c '#ff0000' -b -i ../test_table_1.ods ../test_table_3.xlsx -o ../diff
+
+spreadsheetdiff -q -c 'yellow' -i ../test_table_3.xlsx ../test_table_4.xlsx -o ../diff
 ````
 Example output:
 ````
@@ -118,7 +126,20 @@ Example output:
 ### Example for local execution of the main method:
 
 ````
-python3 spreadsheetdiff/main.py -v -i ../file_1.xlsx ../file_2.ods -o ../diff
+python3 spreadsheetdiff/main.py -v -i ../file_3.xlsx ../file_2.ods -o ../diff
+
+````
+
+### Example of module import:
+
+````
+from spreadsheetdiff import main as ssd
+
+style = [("bold", True), ("bg_color", "#ff0000")]
+ssd.compare_excel_files('../file_1.ods', '../file_2.ods', '../diff', style)
+
+style = [("bg_color", "yellow")]
+ssd.compare_excel_files('../file_1.ods', '../file_3.xlsx', '../diff', style)
 ````
 
 ## Uninstall package:
