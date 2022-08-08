@@ -22,21 +22,28 @@ def style_diffs(res_exl_file: str, diffs: dict, style: list):
     for entry in style:
         style_format[entry[0]] = entry[1]
     diff_format = workbook.add_format(style_format)
+    header_format = workbook.add_format({
+        "bold": True,
+        "font_color": 'blue',
+        "border": 1
+    })
     for sheet in res_exl_sheets:
         sheet_data = res_exl_sheets[sheet]
         worksheet = workbook.add_worksheet(sheet)
         col_names = list(sheet_data.columns.values)
+        for col_idx in range(len(col_names)):
+            worksheet.write(0, col_idx, col_names[col_idx], header_format)
         for col in sheet_data:
             col_idx = col_names.index(col)
             for row_idx, _ in sheet_data.iterrows():
+                xlsxwriter_idx = int(row_idx) + 1
+                val = sheet_data.iloc[row_idx][col]
+                if pd.isnull(val):
+                    val = str(val)
                 if (row_idx, col_idx) in diffs[sheet]:
-                    worksheet.write(row_idx, col_idx,
-                                    f"{sheet_data.iloc[row_idx][col]}",
-                                    diff_format)
+                    worksheet.write(xlsxwriter_idx, col_idx, val, diff_format)
                 else:
-                    worksheet.write(row_idx,
-                                    col_idx,
-                                    f"{sheet_data.iloc[row_idx][col]}")
+                    worksheet.write(xlsxwriter_idx, col_idx, val)
     workbook.close()
 
 
@@ -45,7 +52,6 @@ def compare_sheets(exl_1, exl_2, sheet, diff_writer, diff_annot):
     logger.debug(f"Analysing sheet '{sheet}'")
     diff_annot += f"\tSheet '{sheet}':\n"
     diffs = []
-
     if not exl_1[sheet].equals(exl_2[sheet]):
         match_map = exl_1[sheet] == exl_2[sheet]
         diff_rows, diff_cols = np.where(match_map == False)
@@ -79,8 +85,8 @@ def compare_excel_files(excel_1, excel_2, out_dir, style=None):
     logger.info('Starting SpreadSheetDiff analysis...')
     diff_annot = f'## COMPARISON OF\n##\t{excel_1}\n##\tWITH\n##\t{excel_2}' \
                  f'\n##\n## Differences:\n'
-    exl_1 = pd.read_excel(excel_1, sheet_name=None)
-    exl_2 = pd.read_excel(excel_2, sheet_name=None)
+    exl_1 = pd.read_excel(excel_1, sheet_name=None, dtype=object, converters=None)
+    exl_2 = pd.read_excel(excel_2, sheet_name=None, dtype=object, converters=None)
     out_path = f'{out_dir}/'
     diffs = {}
     if exl_1.keys() == exl_2.keys():
