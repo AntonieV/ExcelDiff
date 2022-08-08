@@ -109,6 +109,7 @@ optional arguments:
 ````
 
 ### Examples package execution:
+
 ````
 spreadsheetdiff -v -c '#ff0000' -b -i ../test_table_1.ods ../test_table_3.xlsx -o ../diff
 
@@ -144,8 +145,7 @@ ssd.compare_excel_files('../file_1.ods', '../file_3.xlsx', '../diff', style)
 ````
 
 ## Uninstall package:
+
 ````
 pip3 uninstall spreadsheetdiff
 ````
-
-
