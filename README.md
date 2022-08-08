@@ -73,7 +73,7 @@ The differences are stored in the cells of an .xlsx results file. A difference
 is marked in corresponding cell with `>>>` annotation between the different 
 values: `[value of first input file] >>> [value of second input file]`
 
-![image info](/home/tarja/Downloads/Screenshot_SpreadSheetDiff.png)
+![image info](./assets/Screenshot_SpreadSheetDiff.png)
 
 
 In addition, they are stored with the corresponding cell localization 
