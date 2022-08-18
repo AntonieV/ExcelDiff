@@ -1,6 +1,6 @@
 # SpreadSheetDiff
 
-[![HitCount](https://hits.dwyl.com/AntonieV/hits.svg)](https://github.com/AntonieV/NodeRAD)
+[![HitCount](https://hits.dwyl.com/AntonieV/hits.svg)](https://github.com/AntonieV/SpreadSheetDiff)
 
 A tool to compare two Excel or OpenOffice files (.xlsx or .ods format)
 with annotation of the differences. The files 
